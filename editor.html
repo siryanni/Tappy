@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tappy - Create Your Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Load fonts for the different themes -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Code:wght@300..700&family=Inter:wght@300..800&display=swap" rel="stylesheet">
+    
+    <!-- External libraries for ZIP and QR code generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body style="background-color: antiquewhite; font-family: 'Playfair Display', Georgia, serif; margin: 0; padding: 24px; display: flex; flex-direction: column; align-items: center;">
+
+    <div style="background-color: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.1); padding: 24px; border-radius: 16px; text-align: center; max-w-sm w-full; box-shadow: 0 4px 6px rgba(0,0,0,0.05); box-sizing: border-box; margin-bottom: 24px;">
+        
+        <h1 style="margin-top: 0; margin-bottom: 8px; font-size: 28px;">Tappy Editor</h1>
+        <p style="margin-top: 0; margin-bottom: 24px; font-style: italic; color: #555;">Create your digital business card</p>
+
+        <div style="margin-bottom: 20px; text-align: left;">
+            <!-- Profile Picture & Name -->
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold;">Profile Picture:</label>
+            <input type="file" id="avatarInput" accept="image/*" style="width: 100%; margin-bottom: 12px; font-family: inherit;">
+
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold;">Full Name *:</label>
+            <input type="text" id="nameInput" placeholder="John Doe" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); font-family: inherit; box-sizing: border-box; margin-bottom: 12px;">
+
+            <!-- Business Enhancements -->
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold;">Job Title:</label>
+            <input type="text" id="jobInput" placeholder="Lead Developer" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); font-family: inherit; box-sizing: border-box; margin-bottom: 12px;">
+
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold;">Company / Organization:</label>
+            <input type="text" id="companyInput" placeholder="Hacker Space Ltd." style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); font-family: inherit; box-sizing: border-box; margin-bottom: 12px;">
+
+            <!-- Contact Data -->
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold;">Phone Number:</label>
+            <input type="tel" id="phoneInput" placeholder="+49 123 456789" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); font-family: inherit; box-sizing: border-box; margin-bottom: 12px;">
+
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold;">Email Address:</label>
+            <input type="email" id="emailInput" placeholder="hello@tappy.dev" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); font-family: inherit; box-sizing: border-box; margin-bottom: 12px;">
+            
+            <!-- Bio / Note Field -->
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold;">Contact Note / Bio:</label>
+            <textarea id="noteInput" placeholder="Let's build something awesome together!" rows="3" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); font-family: inherit; box-sizing: border-box; margin-bottom: 12px; resize: vertical;"></textarea>
+
+            <!-- Theme Selection -->
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold; color: #b25e00;">Card Style / Theme:</label>
+            <select id="themeInput" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); font-family: inherit; box-sizing: border-box; margin-bottom: 12px; background: white; font-weight: bold;">
+                <option value="cream">🍦 Classic Cream</option>
+                <option value="hacker">🌑 Dark Hacker</option>
+                <option value="corporate">🏢 Modern Corporate</option>
+                <option value="sunset">🌸 Sunset Minimal</option>
+            </select>
+
+            <!-- Social Links -->
+            <label style="display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold;">Social Links:</label>
+            <div id="socialsContainer"></div>
+            <button type="button" id="addSocialBtn" style="margin-top: 4px; margin-bottom: 20px; padding: 6px 12px; font-family: inherit; font-size: 12px; cursor: pointer; background-color: #555; color: white; border: none; border-radius: 4px;">
+                + Add Social Link
+            </button>
+        </div>
+
+        <button id="exportBtn" style="padding: 12px 24px; font-family: 'Playfair Display', Georgia, serif; font-size: 16px; cursor: pointer; background-color: #222; color: antiquewhite; border: none; border-radius: 8px; width: 100%; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            Export Tappy Package (.zip)
+        </button>
+
+        <!-- GitHub Pages URL Input for QR Code -->
+        <div style="margin-top: 20px; border-top: 1px dashed rgba(0,0,0,0.2); padding-top: 16px; text-align: left;">
+            <label style="display: block; font-size: 13px; margin-bottom: 4px; font-weight: bold; color: #333;">GitHub Pages URL (Optional for QR Code):</label>
+            <input type="url" id="githubPagesUrlInput" placeholder="https://username.github.io/repository" style="width: 100%; padding: 6px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.2); font-family: inherit; box-sizing: border-box; font-size: 13px;">
+            <p style="margin: 4px 0 0 0; font-size: 11px; color: #666; font-style: italic;">If you enter your live profile URL here, Tappy will generate a matching QR code and pack it directly into your ZIP file!</p>
+        </div>
+
+        <!-- Maker Credits -->
+        <details style="cursor: pointer; margin-top: 24px; text-align: left; border-top: 1px solid rgba(0, 0, 0, 0.1); padding-top: 16px;">
+            <summary style="font-weight: bold; font-size: 14px; color: #333; outline: none;">About Maker</summary>
+            <p style="margin-top: 8px; margin-bottom: 0; color: #555; font-size: 15px; line-height: 1.5;">
+                Hello Fellow Hackers and Networkers! I am SirYanni, and I made Tappy to help avoid 
+                (imo pretty expensive) <br>
+                NFC-Businesscard services. To use it, simply click "Create Contact" and enter your info. <br>
+                When you're done, simply click "export" and your HTML and vcf file will be downloaded. <br>
+                Then, you can just unzip the files and transfer them to your NFC card via your Phone.<br><br>
+                <strong>My GitHub:</strong> <a href="https://github.com/siryanni" target="_blank" style="color: #222; font-weight: bold;">github.com/siryanni</a><br>
+                <strong>My Instagram:</strong> <a href="https://www.instagram.com/sir___yanni/" target="_blank" style="color: #222; font-weight: bold;">@sir___yanni</a>
+            </p>
+        </details>
+
+    </div> 
+
+    <!-- Preview Container for the QR Code on Screen -->
+    <div id="qrPreviewContainer" style="background-color: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.1); padding: 24px; border-radius: 16px; text-align: center; max-w-sm w-full; box-shadow: 0 4px 6px rgba(0,0,0,0.05); box-sizing: border-box; display: none; flex-direction: column; align-items: center; margin-bottom: 24px;">
+        <h3 style="margin-top: 0; margin-bottom: 4px;">Your Tappy QR-Code</h3>
+        <p style="margin-top: 0; margin-bottom: 16px; font-size: 13px; color: #555; font-style: italic;">Scan to open your deployed profile link</p>
+        <div id="qrcode" style="padding: 12px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
