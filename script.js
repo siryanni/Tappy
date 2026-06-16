@@ -1,12 +1,13 @@
 let base64Image = "";
 
-// Handle Image Upload and convert to Base64
+// Handle Image Upload and convert to Base64 (Full Data-URL String)
 document.getElementById('avatarInput').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
-            base64Image = event.target.result.split(',')[1];
+            // Behält den kompletten String inkl. "data:image/png;base64,..." bei
+            base64Image = event.target.result; 
         };
         reader.readAsDataURL(file);
     }
@@ -95,7 +96,7 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
         }
     });
 
-    // vCard (VCF) Generierung mit den neuen Feldern
+    // vCard (VCF) Generierung (Falls ein Bild existiert, extrahieren wir für die VCF das reine Base64)
     let vcardLines = [
         "BEGIN:VCARD",
         "VERSION:3.0",
@@ -107,7 +108,11 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
     if (jobTitle) vcardLines.push(`TITLE:${jobTitle}`);
     if (company) vcardLines.push(`ORG:${company}`);
     if (note) vcardLines.push(`NOTE:${note}`);
-    if (base64Image) vcardLines.push(`PHOTO;TYPE=JPEG;ENCODING=b:${base64Image}`);
+    
+    if (base64Image) {
+        const pureBase64 = base64Image.split(',')[1];
+        vcardLines.push(`PHOTO;TYPE=JPEG;ENCODING=b:${pureBase64}`);
+    }
 
     let vcardContent = vcardLines.join("\r\n") + "\r\n" + vcardUrls + "END:VCARD";
     const downloadFileName = `${fullName.replace(/\s+/g, '_')}_Contact.vcf`;
@@ -162,7 +167,7 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
         noteHtml = `<p style="margin: 16px 0; font-size: 14px; line-height: 1.5; font-style: italic; opacity: 0.85; border-left: 2px solid; padding-left: 8px; text-align: left;">${note.replace(/\n/g, '<br>')}</p>`;
     }
 
-    // Das fertige HTML-Template zusammenbauen (FIXED ABOUT MAKER SEKTION)
+    // Das fertige HTML-Template zusammenbauen (Mit direktem src-Mapping für base64Image)
     const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -177,7 +182,7 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
 
     <div style="${themeStyles.container} padding: 24px; border-radius: 16px; text-align: center; max-w-sm w-full; box-shadow: 0 4px 6px rgba(0,0,0,0.05); box-sizing: border-box;">
         
-        ${base64Image ? `<img src="data:image/jpeg;base64,${base64Image}" style="width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; border: 2px solid ${selectedTheme === 'hacker' ? '#00ff00' : '#222'};">` : ''}
+        ${base64Image ? `<img src="${base64Image}" style="width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; border: 2px solid ${selectedTheme === 'hacker' ? '#00ff00' : '#222'};">` : ''}
         
         <h1 style="margin-top: 0; margin-bottom: 4px; font-size: 28px;">${fullName}</h1>
         <p style="margin-top: 0; margin-bottom: 16px; font-size: 14px; ${themeStyles.subtitle}">Contact Profile</p>
