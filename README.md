@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Tappy - Open Source NFC Business Card Engine
 
 Tappy is a free, minimalist web tool designed to create and export digital business cards. The goal of this project is to provide a privacy-focused alternative to expensive subscription-based NFC card services. Your data is never stored in a database; it remains completely under your control.
@@ -51,3 +52,7 @@ Hi, I'm SirYanni. I built Tappy to create a straightforward alternative to overp
 ## License
 
 This project is open source. You are welcome to fork it, add custom themes, or modify the code for your own needs.
+=======
+# Tappy
+Tappy is an intuitive HTML Site for creating a semi-digital "business" Card profile to put on an NFC Tag/Card, including a vcf-File for simplyfied Contact saving. 
+>>>>>>> 637beea (Fixed File Bug in js)
