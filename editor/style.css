@@ -11,16 +11,26 @@ body {
 }
 
 .editor-container {
+    position: relative; 
     background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 24px;
+    padding-top: 36px; 
     border-radius: 16px;
     text-align: center;
-    max-width: 384px; /* entspricht max-w-sm (24rem) */
+    max-width: 384px;
     width: 100%;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     box-sizing: border-box;
     margin-bottom: 24px;
+}
+
+.mascot-card {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 62px; 
+    height: auto;
 }
 
 .editor-title {
