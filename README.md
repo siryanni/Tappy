@@ -1,41 +1,88 @@
 # Tappy - Open Source NFC Business Card Engine
 
-Tappy is a free, minimalist web tool designed to create and export digital business cards. The goal of this project is to provide a privacy-focused alternative to expensive subscription-based NFC card services. Your data is never stored in a database; it remains completely under your control.
+A free, privacy-focused NFC business card generator that runs entirely in your browser.
+Create a digital business card, customize its design, and export everything you need to host it yourself — including a web profile, vCard and QR code.
+
+<img width="391" height="126" alt="grafik" src="https://github.com/user-attachments/assets/63794d9f-3862-4e6d-ab1e-04279c94b27f" />
+
 
 ### Live Demo:
 https://siryanni.github.io/Tappy/
 
 ---
 
+## Why Tappy?
+
+One day I fell down the rabbit hole of NFC business cards, only to discover that almost all of them were tied to monthly fees. While these services provide a hosted profile, that also means giving the service control over where your profile lives and how it works.
+Tappy takes a different approach: you generate the files yourself and host them wherever you want.
+There is no Tappy account, no database containing your profile, and no subscription required.
+
+---
+
 ## Features
 
-* **Theme Selection:** Quickly switch between multiple designs (Classic Cream, Dark Hacker, Modern Corporate, Sunset Minimal).
-* **vCard Generation:** Fully supports profile pictures (Base64 encoded), custom social media links, and a bio/note field that saves directly into the recipient's address book.
-* **QR Code Preview:** Automatically generates a matching QR code image included directly in your download.
-* **ZIP Export:** Downloads all generated files locally as a single package (index.html, contact file, and QR code).
-* **100% Local:** Runs entirely in your browser without any backend tracking or external dependencies.
+1. **Multiple themes:** Choose between several ready-to-use designs
+2. **Custom Profiles:** Add your name, contact info, bio, and sites of your choice
+3. **vCard Generation:** Generate a contact file that can be saved directly to most phones.
+4. **QR-Code Generation:** Every export can include a QR-Code, if URL to profile-host is provided
+5. **ZIP-export:** The generated files then can be downloaded as a ready-to-host ZIP-archive
+6. **Local Processing:** Your profile data is processed directly in your browser
 
 ---
 
 ## How It Works
 
-The entire process takes just four simple steps:
+1.**Create your profile:** Open the Tappy editor, enter your information, upload a profile picture and choose a theme.
 
-1. **Create your Profile:** Open the Tappy editor via the live URL, upload an image, fill in your information, and choose a theme.
-2. **Export the Package:** Click "Export Tappy Package (.zip)". You will receive a ZIP file containing your formatted profile page (`index.html`), your contact file (`.vcf`), and the QR code.
-3. **Host for Free:** Unzip the package and upload the files to a platform of your choice (such as GitHub Pages, Netlify, or Vercel).
-4. **Write to your NFC Card:** Get an inexpensive, blank NFC tag or card (e.g., NTAG213 or NTAG215). Use a smartphone app like "NFC Tools", add a URL record pointing to your hosted profile page, and write it to the card.
+2.**Export:** Tappy generates a ZIP package containing your profile page, vCard and QR code.
 
-Once written, tapping your physical card against a smartphone will instantly open your mobile Tappy profile.
+3.**Host your profile:** Upload the generated files to any static hosting provider, such as GitHub Pages, Netlify or Vercel.
+
+4.**Connect your NFC-Card:** Write the URL of your hosted profile to an NFC tag or card using an NFC writing app.
+
+Once configured, tapping the NFC card with a smartphone opens your digital business card.
 
 ---
 
+## Privacy & Local Processing 
+
+Tappy does not require an account or a backend.
+Your profile information is processed locally in your browser while creating the card. The generated files are downloaded directly to your device, giving you control over where and how your profile is hosted.
+Tappy does not provide hosting for your profile — you own the generated files and choose where they are hosted.
+
+---
+
+## Tech Stack
+
+Tappy is built as a lightweight client-side web application using:
+
+- HTML
+- CSS
+- JavaScript
+- JSZip for ZIP generation
+- QR code generation for profile links
+- vCard generation for contact saving
+
+No backend is required to create and export a card.
+
+---
+
+
 ## Project Structure
 
-* `index.html`: The user interface of the editor (formerly editor.html).
-* `script.js`: The underlying logic handling image conversion, vCard building, and ZIP compilation.
-* `style.css`: The layout and styling for the editor interface.
-* `README.md`: This documentation.
+- `editor/` — Tappy card editor
+- `index.html` — Landing page
+- `landing.css` — Landing page styling
+- `landing.js` — Landing page logic
+- `README.md` — Project documentation
+
+---
+
+## AI Usage
+
+AI tools were used as a development aid during the development of Tappy.
+I used AI mainly for debugging, discussing implementation approaches, and getting suggestions when I was stuck on technical problems (e.g. Base64 implementation)
+I reviewed, adapted and tested the generated suggestions myself. The project concept, design decisions and feature selection were my own.
 
 ---
 
@@ -43,18 +90,9 @@ Once written, tapping your physical card against a smartphone will instantly ope
 
 Hi, I'm SirYanni. I built Tappy to create a straightforward alternative to overpriced NFC business card subscriptions.
 
-* **GitHub:** https://github.com/siryanni
-* **Instagram:** https://www.instagram.com/sir___yanni/
-
 ---
 
 ## License
 
 This project is open source. You are welcome to fork it, add custom themes, or modify the code for your own needs.
-<<<<<<< HEAD
-=======
-=======
-# Tappy
-Tappy is an intuitive HTML Site for creating a semi-digital "business" Card profile to put on an NFC Tag/Card, including a vcf-File for simplyfied Contact saving. 
->>>>>>> 637beea (Fixed File Bug in js)
->>>>>>> c2d7ca3d7eb734b7b8667a2271a49a1dd01848da
+
