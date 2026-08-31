@@ -11,13 +11,11 @@ async function getBase64FromUrl(url) {
 
 let base64Image = "";
 
-// Handle Image Upload and convert to Base64 (Full Data-URL String)
 document.getElementById('avatarInput').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
-            // Behält den kompletten String inkl. "data:image/png;base64,..." bei
             base64Image = event.target.result; 
         };
         reader.readAsDataURL(file);
@@ -86,12 +84,11 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
         return;
     }
 
-// Social Links auslesen
+// Socials-Readout
     const socialRows = document.querySelectorAll('.social-row');
     let socialLinksHtml = "";
     let vcardUrls = "";
 
-    // Theme-spezifische Button-Klassen oder Styles definieren
     let btnStyle = "display: block; margin-bottom: 12px; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; text-align: center;";
     if (selectedTheme === 'cream') {
         btnStyle += " background: rgba(0,0,0,0.05); color: #222;";
@@ -118,7 +115,6 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
         }
     });
 
-    // vCard (VCF) Generierung (Falls ein Bild existiert, extrahieren wir für die VCF das reine Base64)
     let vcardLines = [
         "BEGIN:VCARD",
         "VERSION:3.0",
@@ -139,7 +135,7 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
     let vcardContent = vcardLines.join("\r\n") + "\r\n" + vcardUrls + "END:VCARD";
     const downloadFileName = `${fullName.replace(/\s+/g, '_')}_Contact.vcf`;
 
-    // THEME-ENGINE: Styles basierend auf der Auswahl festlegen
+    // THEME-ENGINE
     let themeStyles = {
         body: "background-color: antiquewhite; font-family: 'Playfair Display', Georgia, serif;",
         container: "background-color: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.1); color: #222;",
@@ -174,7 +170,6 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
         };
     }
 
-// Job und Company Zeile für HTML aufbereiten, falls vorhanden
     let businessHtml = "";
     if (jobTitle || company) {
         businessHtml = `<div style="margin-bottom: 16px; font-size: 15px;">`;
@@ -183,13 +178,11 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
         businessHtml += `</div>`;
     }
 
-    // Notiz-Sektion für HTML aufbereiten, falls vorhanden
     let noteHtml = "";
     if (note) {
         noteHtml = `<p style="margin: 16px 0; font-size: 14px; line-height: 1.5; font-style: italic; opacity: 0.85; border-left: 2px solid; padding-left: 8px; text-align: left;">${note.replace(/\n/g, '<br>')}</p>`;
     }
-
-    // Das fertige HTML-Template zusammenbauen (Mit direktem src-Mapping für base64Image)
+// HTML-Builder after Info's entered
     const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -254,22 +247,20 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
 </body>
 </html>`;
 
-    // ZIP-Generierung vorbereiten
+    // ZIP-gen
     const zip = new JSZip();
     const fileNameBase = fullName.replace(/\s+/g, '_');
     
     zip.file("index.html", htmlContent);
     zip.file(`${fileNameBase}.vcf`, vcardContent);
 
-    // QR-CODE GENERATOR LOGIK
+    // QR-CODE
     if (githubPagesUrl) {
-        // Auf dem Bildschirm anzeigen
         const qrContainer = document.getElementById('qrPreviewContainer');
         const qrDiv = document.getElementById('qrcode');
-        qrDiv.innerHTML = ""; // Alten QR-Code löschen
+        qrDiv.innerHTML = ""; 
         qrContainer.style.display = "flex";
 
-        // QR-Code in verdecktes Element rendern, um DataURL abzugreifen
         const qrObj = new QRCode(qrDiv, {
             text: githubPagesUrl,
             width: 180,
@@ -277,18 +268,18 @@ document.getElementById('exportBtn').addEventListener('click', async function() 
             correctLevel: QRCode.CorrectLevel.H
         });
 
-        // Kurz warten, bis qrcode.js das Image-Tag im DOM generiert hat
+        // Short wait for qr generator
         setTimeout(() => {
             const qrImg = qrDiv.querySelector('img');
             if (qrImg && qrImg.src) {
                 const qrBase64 = qrImg.src.split(',')[1];
                 zip.file("qrcode.png", qrBase64, {base64: true});
             }
-            // ZIP finalisieren und herunterladen
+            // ZIP finalization
             generateAndDownloadZip(zip, fileNameBase);
         }, 100);
     } else {
-        // QR-Vorschau verstecken, falls kein Link eingegeben wurde
+        // QR-preview hide if no link placed
         document.getElementById('qrPreviewContainer').style.display = "none";
         generateAndDownloadZip(zip, fileNameBase);
     }

@@ -114,7 +114,6 @@ body {
     text-decoration: none;
 }
 
-/* Responsive Design für Smartphones */
 @media (max-width: 768px) {
     .features-section {
         flex-direction: column;
