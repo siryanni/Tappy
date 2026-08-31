@@ -52,16 +52,6 @@ Tappy does not provide hosting for your profile — you own the generated files 
 
 ---
 
-## Project Structure
-
-- `editor/` — Tappy card editor
-- `index.html` — Landing page
-- `landing.css` — Landing page styling
-- `landing.js` — Landing page logic (future update coming)
-- `README.md` — Project documentation
-
----
-
 ## AI Usage
 
 AI tools were used as a development aid during the development of Tappy.
